@@ -9,6 +9,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeormConfigService } from './database/typeorm-config.service';
 import { DataSource } from 'typeorm';
 import { SystemVersionEntity } from './database/entities/system-version.entity';
+import { BullModule } from '@nestjs/bull';
+import { BullConfigService } from './config/bull-config.service';
+import { MessageModule } from './modules/message/message.module';
 
 @Module({
   imports: [
@@ -18,6 +21,7 @@ import { SystemVersionEntity } from './database/entities/system-version.entity';
       cache: true,
     }),
     HealthCheckerModule,
+    MessageModule,
     SharedModule,
     TypeOrmModule.forRootAsync({
       useClass: TypeormConfigService,
@@ -36,6 +40,9 @@ import { SystemVersionEntity } from './database/entities/system-version.entity';
           .execute();
         return dataSource;
       },
+    }),
+    BullModule.forRootAsync({
+      useClass: BullConfigService,
     }),
   ],
   controllers: [AppController],

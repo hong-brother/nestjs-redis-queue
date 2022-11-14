@@ -8,6 +8,7 @@ import cfonts from 'cfonts';
 import { ConfigService } from '@nestjs/config';
 import { isEmpty } from 'class-validator';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { isNil } from '@nestjs/common/utils/shared.utils';
 
 @Injectable()
 export class AppConfig {
@@ -90,7 +91,8 @@ export class AppConfig {
     return value;
   }
   public get(key: string): string {
-    const env = process.env.NODE_ENV || 'local';
+    let env = process.env.NODE_ENV;
+    if (isNil(env)) env = 'local';
     const value = this.configService.get(`${env}.${key}`);
 
     if (isEmpty(value)) {

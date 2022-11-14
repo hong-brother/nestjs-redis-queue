@@ -12,26 +12,32 @@ local:
     log-level: info
   database:
     type: postgres
-    host: 127.0.0.1
+    host: 192.168.20.252
     port: 5432
     username: nestjs
     password: nestjs
     name: boilerplate-db
     logging: true
     synchronize: true
+  redis:
+    host: 192.168.20.252
+    port: 16379
 development:
   common:
     http-port: 3000
     log-level: info
   database:
     type: postgres
-    host: 127.0.0.1
+    host: 192.168.20.252
     port: 5432
     username: nestjs
     password: nestjs
     name: boilerplate-db
     logging: true
     synchronize: true
+  redis:
+    host: 192.168.20.252
+    port: 16379
 production:
   common:
     http-port: 3000
@@ -45,3 +51,6 @@ production:
     name: boilerplate-db
     logging: true
     synchronize: true
+  redis:
+    host: 192.168.20.252
+    port: 16379
