@@ -23,29 +23,19 @@ export class MessageSubscribe {
     });
   };
 
-  @OnQueueFailed()
-  failedMessage(job: Job) {
-    this.logger.error(job.id);
-  }
-
   @Process()
   async onActive(job: Job) {
     try {
-      const message = job.data;
       return new Promise((resolve, reject) => {
-        this.logger.log('releaseLock~');
-        // job.releaseLock();
-        this.redisQueue.pause(true);
-        resolve(this.sleep(1000));
+        this.logger.log('[1/2]Processing....');
+        resolve(this.sleep(5000));
       })
-        .then((value) => {
-          this.redisQueue.add(job.id + '/' + message);
-          return this.sleep(5000);
+        .catch((e) => {
+          this.logger.error(`fail message = ${e.message}`);
+          return job.remove();
         })
         .finally(() => {
-          this.logger.log(`take rock`);
-          // job.takeLock();
-          this.redisQueue.pause(false);
+          this.logger.log('finally and 후처리');
         });
 
       // void this.redisQueue.removeRepeatableByKey(String(job.id));
@@ -65,6 +55,6 @@ export class MessageSubscribe {
   onCompleted(job: Job) {
     // void job.remove();
 
-    this.logger.log('success message = ' + JSON.stringify(job.data));
+    this.logger.log('메세지 성공 판단 삭제~');
   }
 }

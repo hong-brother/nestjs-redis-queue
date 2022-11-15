@@ -16,7 +16,6 @@ export class MessageController {
     },
   })
   publishMessage(@Body('userId') userId: string) {
-    console.log(userId);
     this.messageService.sendMessage(userId);
   }
 }

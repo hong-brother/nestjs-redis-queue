@@ -15,7 +15,7 @@ export class MessageService {
   sendMessage(message) {
     try {
       // 추후 enum으로 변경 예정
-      void this.redisQueue.add({ message });
+      void this.redisQueue.add({ message }, {});
     } catch (e) {
       this.logger.error(e.message);
     }
